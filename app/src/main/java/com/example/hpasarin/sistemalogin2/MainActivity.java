@@ -1,10 +1,13 @@
 package com.example.hpasarin.sistemalogin2;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,11 +20,25 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    SharedPreferences prefs;
+    //cargar configuración aplicación Android usando SharedPreferences
+    public void cargarConfiguracion()
+    {
+        //si hay fichero de configuracion, accedo a sus recursos.
+         prefs = getSharedPreferences("configaplicacion", Context.MODE_APPEND);
+        //devolvera 99 si no encuentra ningun par key-value para id seria el valor por defecto
+        Log.d("PRUEBA",prefs.getAll().toString());
+        this.setTitle("identificado como "+(prefs.getString("id", "99")));
+        //opUbicacionFichero.setChecked(prefs.getBoolean("GuardarSDCard", true));
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cargarConfiguracion();
         setContentView(R.layout.activity_main);
+        cargarConfiguracion();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -112,5 +129,15 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //AQUI TENGO QUE GUARDAR LO QUE TENGA EN PREFERENCIAS, SINO DESAPARECE
+
+        Log.d("PRUEBA","en prefs, tengo guardaddo: "+getPreferences(Context.MODE_APPEND).getAll().toString());
     }
 }

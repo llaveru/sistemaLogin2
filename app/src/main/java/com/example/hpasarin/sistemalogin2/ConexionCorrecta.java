@@ -1,6 +1,8 @@
 package com.example.hpasarin.sistemalogin2;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 //import android.support.v4.app.Fragment;
@@ -19,13 +21,13 @@ import android.widget.TextView;
 public class ConexionCorrecta extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
+     static final String ARG_PARAM1 = "param1";
+     static final String ARG_PARAM2 = "param2";
+    SharedPreferences prefs;
     // TODO: Rename and change types of parameters
-    private String Usuario;
-    private String Mensaje;
-
+    private static String Usuario;
+    private static String Mensaje;
+    static Bundle args;
 
     public ConexionCorrecta() {
         // Required empty public constructor
@@ -42,11 +44,17 @@ public class ConexionCorrecta extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static ConexionCorrecta newInstance(String param1, String param2) {
         ConexionCorrecta fragment = new ConexionCorrecta();
+
         Log.d("PRUEBA","SE crea ConexionCorrecta (el fragment)");
-        Bundle args = new Bundle();
+
+         args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
+
+        Log.d("PRUEBA","Usuario toma el valor: "+ args.getString(ARG_PARAM1));
+
         return fragment;
     }
 
@@ -54,10 +62,12 @@ public class ConexionCorrecta extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            Usuario = getArguments().getString(ARG_PARAM1);
-            Mensaje = getArguments().getString(ARG_PARAM2);
+        if (getArguments() != null) {//si se restablece estado?
+            this.Usuario = getArguments().getString(ARG_PARAM1);
+            this.Mensaje = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
@@ -74,10 +84,30 @@ public class ConexionCorrecta extends Fragment {
                 tvUsuariocorrecto.setText("Contraseña o usuario erróneos");
 
             }else
-        tvUsuariocorrecto.setText("bienvenido "+Usuario);
+        tvUsuariocorrecto.setText("bienvenido "+this.Usuario);
         mensaje.setText(Mensaje);
+
+        guardarUser();
+
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_conexion_correcta, container, false);
+    }
+
+    public void guardarUser(){
+        //si hay fichero de configuracion, accedo a sus recursos.
+         prefs = getActivity().getSharedPreferences("configaplicacion", Context.MODE_APPEND);
+        SharedPreferences.Editor editorDePreferencias = prefs.edit();
+        editorDePreferencias.putString("id",this.Usuario);
+        editorDePreferencias.commit();
+
+        Log.d("PRUEBA","SE GUARDA EL ID EN PREFERENCIAS: "+this.Usuario);
+        Log.d("PRUEBA","preferencias: "+getActivity().getPreferences(Context.MODE_APPEND).getAll().toString());
+
+        //devolvera 99 si no encuentra ningun par key-value para id seria el valor por defecto
+        getActivity().setTitle("identificado como "+(prefs.getString("id", "99")));
+        //opUbicacionFichero.setChecked(prefs.getBoolean("GuardarSDCard", true));
     }
 
 }
