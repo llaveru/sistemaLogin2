@@ -10,10 +10,7 @@
     android:background="#c9c4d240"
     tools:context="com.example.hpasarin.sistemalogin2.FragmentObtenerLista">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+
 
     <ListView
         android:id="@+id/vistaLista"
