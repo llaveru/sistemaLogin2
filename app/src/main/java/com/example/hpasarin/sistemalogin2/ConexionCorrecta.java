@@ -28,6 +28,7 @@ public class ConexionCorrecta extends Fragment {
     private static String Usuario;
     private static String Mensaje;
     static Bundle args;
+    TextView tvUsuarioLogeado;
 
     public ConexionCorrecta() {
         // Required empty public constructor
@@ -86,10 +87,11 @@ public class ConexionCorrecta extends Fragment {
             }else
         tvUsuariocorrecto.setText("bienvenido "+this.Usuario);
         mensaje.setText(Mensaje);
-
+        tvUsuariocorrecto = (TextView) getActivity().findViewById(R.id.tvLogeadoComo);
         guardarUser();
 
 
+        tvUsuarioLogeado = (TextView) getActivity().findViewById(R.id.tvLogeadoComo);
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_conexion_correcta, container, false);
@@ -108,6 +110,9 @@ public class ConexionCorrecta extends Fragment {
         //devolvera 99 si no encuentra ningun par key-value para id seria el valor por defecto
         getActivity().setTitle("identificado como "+(prefs.getString("id", "99")));
         //opUbicacionFichero.setChecked(prefs.getBoolean("GuardarSDCard", true));
+
+        //se pone el nombre de la persona logeada en la nav-header_main
+        tvUsuarioLogeado.setText(prefs.getString("id","haga login para ver sus vehiculos"));
     }
 
 }

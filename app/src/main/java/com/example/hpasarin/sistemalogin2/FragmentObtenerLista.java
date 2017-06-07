@@ -247,7 +247,7 @@ class Tarea extends AsyncTask<URL,Void,String> {
                 Log.d("RESULTADO", "Se recogio correctamente id_vehiculo: " + linea.get("id_vehiculo"));
                 //    vehiculos.add(linea.getString("id_vehiculo"));
                 Random genAlea = new Random();
-                switch (genAlea.nextInt(4)){
+                switch (linea.getInt("icono")){
                     case 1:
                         vehiculos_data.add(new Vehiculo(R.drawable.busnegro,linea.getString("nombre_linea"),linea.getString("tipo")));
                         break;
