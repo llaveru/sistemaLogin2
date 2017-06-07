@@ -108,7 +108,8 @@ public class MainActivity extends AppCompatActivity
           fragment= new Login();
             fragmentTransaction = true;
         } else if (id == R.id.nav_gallery) {
-
+            fragment= new FragmentObtenerLista();
+            fragmentTransaction = true;
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
